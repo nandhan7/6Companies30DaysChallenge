@@ -1,0 +1,27 @@
+https://leetcode.com/problems/combination-sum-iii/
+
+
+class Solution {
+    public:
+      vector<vector<int>> ans; //Store all the combinations
+    
+    void f(vector<int>& cur, int cnum, int k, int n) {
+        if(n < 0 || cur.size() > k) return; //If we get a greater sum or number of digits 
+        if(n == 0 && cur.size() == k) { //Getting a perfect sum with exact number of digits
+            ans.push_back(cur); //Add Combination to solution 
+            return;
+        }
+        
+        for(int i=cnum; i<=9; ++i) { 
+            cur.push_back(i);
+            f(cur, i+1, k, n-i); //Take the digit and go down for further calls .
+            cur.pop_back();        //BackTracking 
+        }
+    }
+
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<int> cur;
+        f(cur, 1, k, n);
+        return ans;
+    }
+};
