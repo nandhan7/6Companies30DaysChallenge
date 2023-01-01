@@ -1,0 +1,43 @@
+https://leetcode.com/problems/course-schedule/
+
+class Solution {
+public:
+    bool canFinish(int V, vector<vector<int>>& prerequisites) {
+            //Using TopoSort  Kahn's Algorithm
+	    vector<int>adj[V]; //Creating a graph
+        for(auto it:prerequisites){
+            adj[it[1]].push_back(it[0]);
+        }
+    vector<int>ans;
+	  int indegree[V];
+      for(int i=0;i<V;i++){
+          indegree[i]=0;
+      }
+      queue<int>q;
+      for(int i=0;i<V;i++){
+          for(auto it:adj[i]){
+              indegree[it]++;
+          }
+      }
+      for(int i=0;i<V;i++){
+          if(indegree[i]==0)q.push(i);
+      }
+      
+      while(!q.empty()){
+          int ele=q.front();
+          ans.push_back(ele);
+          q.pop();
+          
+          for(auto it:adj[ele]){
+              indegree[it]--; //Reducing the indegree of the node 
+              if(indegree[it]==0)q.push(it);
+          }
+          
+      }
+        //If Toposort is generated of size V , scheduling is possible else Not possible. 
+      if(ans.size()==V)return true;
+      
+	  return false;
+
+    }
+};
