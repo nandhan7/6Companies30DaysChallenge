@@ -1,0 +1,33 @@
+https://leetcode.com/problems/bulls-and-cows/
+
+class Solution {
+public:
+    string getHint(string secret, string guess) {
+        int Bulls=0;
+        int n=secret.size();
+        int cows=0;
+        map<char,int>st; //Taking a map to store the diff characters of secret
+        map<char,int>s; //Taking a map to store the diff characters of guess
+        for(int i=0;i<n;i++){
+            if(secret[i]==guess[i]){
+                Bulls++;
+            }else{
+                st[secret[i]]++;
+                s[guess[i]]++;
+            }
+        }
+        for(auto it:st){
+            int ele=it.first;
+            if(s.find(ele)!=s.end()){ //Checking if the element is there in both secret and guess
+                cows+=min(it.second,s[ele]); //Since we are taking a map , there might be repeated elements so take the minimum instances of the characters out of both guess and secret.
+            }
+        }
+        string ans="";
+        ans+=to_string(Bulls);
+        ans.push_back('A');
+        ans+=to_string(cows);
+        ans.push_back('B');
+        return ans;
+
+    }
+};
