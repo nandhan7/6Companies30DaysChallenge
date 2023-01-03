@@ -1,0 +1,52 @@
+https://leetcode.com/problems/shortest-unsorted-continuous-subarray/description/
+
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        int n=nums.size();
+        if(n==1)return 0;
+        int mini=INT_MAX;
+        int maxi=INT_MIN;
+        //so find anamolies 
+        //Anamolies as such that arr[i]>arr[i+1] or arr[i]<arr[i-1] // This means that its in unsorted array 
+        //We find the minimum element that comes in this anamoly and the maximum element that comes in this unsorted array
+        //Then if we place this two elements in place in the sorted array , then that is the answer. find its correct position
+        //Thats the maximum part of the subarray that we have to sort because any other elements in this will be sorted automatically if we sort in the biggest range
+        for(int i=0;i<n;i++){
+            if(i==0){ //Has no previous element
+                if(nums[i]>nums[i+1])
+                { 
+                     mini=min(mini,nums[i]);
+                    maxi=max(maxi,nums[i]);
+                    }
+            }
+
+            else if(i==n-1){ //Has no next element
+                if(nums[i]<nums[i-1]){
+                    mini=min(mini,nums[i]);
+                    maxi=max(maxi,nums[i]);}
+            }
+            else{ //Not the first or the last element of the array
+                if(nums[i]>nums[i+1] or nums[i]<nums[i-1]){
+                    mini=min(mini,nums[i]);
+                    maxi=max(maxi,nums[i]);
+                }
+            }
+        }
+
+
+        if(mini==INT_MAX or maxi==INT_MIN) return 0;
+        int i,j;
+        for(i=0;i<n and nums[i]<=mini;i++){
+            //Check the correct position of the mini element that we have to place in nums[i].
+           continue;
+        }
+        for(j=n-1;j>=0 and nums[j]>=maxi;j--){
+             //Check the correct position of the maxi element that we have to place in nums[i].
+           continue;
+        }
+
+        return j-i+1;
+
+    }
+};
