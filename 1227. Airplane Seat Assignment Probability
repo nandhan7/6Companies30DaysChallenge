@@ -1,0 +1,13 @@
+https://leetcode.com/problems/airplane-seat-assignment-probability/description/
+
+class Solution {
+public:
+    double nthPersonGetsNthSeat(int n) {
+        //If youre the only person only the plane the probability you choosing your seat is 1 
+        // Else in all the other cases you the nth person will have two options one take your own seat or the your seat is taken by the first person and youll end up taking the first persons seat , other people take their own seats since they didnt lose their tickets . 
+//If the person picks some random seat in the middle , it will still form a cycle and there would only one option where you would be left with your seat or the first seat 
+//So in all the cases the probability would end up as 0.5
+        if(n==1)return 1.00000;
+        else return 0.50000;
+    }
+};
