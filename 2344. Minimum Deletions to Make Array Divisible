@@ -1,0 +1,33 @@
+https://leetcode.com/problems/minimum-deletions-to-make-array-divisible/description/
+OP
+
+class Solution {
+public:
+    int minOperations(vector<int>& nums, vector<int>& numsDivide) {
+        //Basically the approach here would be we would find the gcd of the array numDivide and then we find the the smallest element that divides the gcd in nums and sort the array and delete the elements before that element .
+        int n=numsDivide.size();
+        int m=nums.size();
+        if(n==1 and m==1){
+            //when we have only one element in both sets and then if they divide we dont need any deletion or else we cannot divide return -1;
+           if(numsDivide[0]%nums[0]) return -1;
+           else return 0;
+        }
+        int gcd=0;
+        for(int i=0;i<n;i++){
+            gcd=__gcd(gcd,numsDivide[i]); //find GCD of numsDivide Array
+        }
+       //Since we need the minimum deletions if we have an element that divides GCD or the GCD itself thats when minimum deletions can be done , We sort it then we get the first element which divides GCD which in turn returns the GCD itself or the factors of it . Then we found the lowerbound and thats the number of deletions needed , if we couldnt find the lowerbound then theres no element in nums which can divide all the elements of numsDivide completely then return -1;
+        sort(nums.begin(),nums.end());
+        int ele=gcd;
+        for(int i=0;i<m;i++){
+            if(gcd%nums[i]==0){
+                ele=nums[i];
+                break;
+            }
+        }
+
+        int noOfDeletions=lower_bound(begin(nums),end(nums),ele)-nums.begin();
+        if(noOfDeletions>m or nums[noOfDeletions]!=ele)return -1;
+        return noOfDeletions;
+    }
+};
