@@ -1,0 +1,47 @@
+https://leetcode.com/problems/number-of-pairs-satisfying-inequality/description/
+
+
+class Solution {
+long long int count=0;
+public:
+    void CheckCount(vector<int>&nums,int start,int mid,int end,int diff){
+        int l=start,r=mid+1;
+        while(l<=mid and r<=end){
+            if(nums[l] <= (nums[r]+diff)){
+                count+=(end-r+1);
+                l++;
+            }else{
+                r++;
+            }
+        }
+          sort(nums.begin()+start,nums.begin()+end+1);
+    }
+
+    void mergeSort(vector<int>&nums,int start,int end,int diff){
+        if(start==end)return;
+        int mid=(start+end)/2;
+        mergeSort(nums,start,mid,diff);
+        mergeSort(nums,mid+1,end,diff);
+        CheckCount(nums,start,mid,end,diff);
+        return;
+    }
+
+    long long numberOfPairs(vector<int>& nums1, vector<int>& nums2, int diff) {
+
+
+        //Wonderful logic
+        //nums1[i] - nums1[j] <= nums2[i] - nums2[j] + diff.
+        //nums1[i] - nums2[1] <= nums1[j] - nums2[j] + diff.
+        //We need the difference so nums[i]<=nums[j]+diff
+        //We use the Merge Sort technique While we are coming up , we sort the subarrays individually and check if any element
+        //on left we check if the element of nums[l] <=nums[r] if yes it can form pairs with all the r,r+1...r+end else it cannot we do l++
+       count=0;
+        int n=nums1.size();
+        vector<int>nums(n);
+        for(int i=0;i<n;i++){
+            nums[i]=nums1[i]-nums2[i];
+        }
+        mergeSort(nums,0,n-1,diff);
+        return count;
+    }
+};
