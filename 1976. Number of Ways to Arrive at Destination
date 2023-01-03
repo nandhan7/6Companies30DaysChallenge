@@ -1,0 +1,43 @@
+https://leetcode.com/problems/number-of-ways-to-arrive-at-destination/description/
+
+class Solution {
+    #define ll long long
+public:
+    int countPaths(int n, vector<vector<int>>& roads) {
+        vector<pair<ll,ll>>adj[n];
+        for(auto it:roads){
+            //Create a Bidirectional Graph
+            adj[it[0]].push_back({it[1],it[2]});
+            adj[it[1]].push_back({it[0],it[2]});
+        }
+        priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>>pq; //Create a minheap {distance,node}
+        vector<ll>dist(n,LONG_MAX),ways(n,0); //Distance array keeps track of distance and ways array to keep track of no of ways you can reach that node.
+        dist[0]=0; //Making source node 0
+        ways[0]=1; //you can always reach source to source in one way
+        pq.push({0,0});
+        ll mod=(ll)(1e9+7);
+        while(!pq.empty()){
+            ll dis=pq.top().first;
+            ll node=pq.top().second;
+            pq.pop();
+
+            for(auto it:adj[node]){
+                int adjNode=it.first;
+                int edW=it.second;
+
+                if(dis+edW < dist[adjNode]){
+                    //We can reach this node with better distance so update the distance and no of ways you reach
+                    dist[adjNode]=dis+edW;
+                    pq.push({dis+edW,adjNode});
+                    ways[adjNode] = ways[node];
+                }else if(dis+edW == dist[adjNode]){
+                    //Suppose we already reached the node with the same distance using another node , so to reach this node
+                //There are multiple ways at the same cost . So we add the ways of that path also to this node
+                                      ways[adjNode]=(ways[adjNode]+ways[node])%mod;
+            }
+
+            }
+        }
+        return ways[n-1]%mod;
+    }
+};
