@@ -1,0 +1,26 @@
+https://leetcode.com/problems/longest-happy-prefix/description/
+
+class Solution {
+public:
+    string longestPrefix(string s) {
+        string ans="";
+        //Use KMP Algorithm , 
+        int n=s.size();
+        vector<int>lps(n,0);
+        //Initially we will have i at 1 index and j at 0 index 
+        //We start comparing and moving , if theres a match store at that index j+1 , because j has moved so many characters from the first and if theres no match , go back move j from that position to the previous lps of that index and keep continuing the process until you get a similar character again loop backk
+        int j=0;
+        for(int i=1;i<n;i++){
+            while(s[i]!=s[j] and j>0){
+                //
+                j=lps[j-1];
+            }
+            if(s[i]==s[j]){
+                lps[i]=j+1;
+                j+=1;
+            }
+        }
+        int final=lps[n-1];
+        return s.substr(0,final);
+    }
+};
