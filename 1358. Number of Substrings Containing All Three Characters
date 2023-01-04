@@ -1,0 +1,30 @@
+https://leetcode.com/problems/number-of-substrings-containing-all-three-characters/description/
+
+class Solution {
+public:
+    int numberOfSubstrings(string s) {
+        //Logic Using Sliding Window slide the window until you get atleast one abc's and then calculate the substrings move the left pointer ,remove the element from the map and continue .
+
+     int left = 0 , right = 0 , end = s.size() - 1;
+        unordered_map<char,int> map; //Can use vector alsoo or three variable it will have O(N)
+        
+        int count = 0;
+        
+        while(right != s.size())
+        {
+            map[s[right]] += 1; // adding new element to window
+            
+            while(map['a'] and map['b'] and map['c']) // while(window is good)
+            {
+                count += 1 + (end - right); //Because if you already have abc in the substring whatever substring you can make right will definitely have atleast one abc count it instead of calculatingg it 
+                
+				// removing first element[means shrinking window from front to form new window]
+                map[s[left]] -= 1; 
+                left++;
+            }
+            right++;
+        }
+        return count;
+
+    }
+};
