@@ -1,0 +1,25 @@
+https://leetcode.com/problems/max-points-on-a-line/
+
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        //All the points on a line will have the same slope with any other point on the same line
+        //We store in a map and then check which has the maximum points as the same slope.
+        int n=points.size();
+        if(n==1)return 1;
+        int ans=2;
+        for(int i=0;i<n;i++){
+            unordered_map<double,int>mp;
+            for(int j=0;j<n;j++){
+                if(i==j)continue;
+                int x1=points[i][0],y1=points[i][1],x2=points[j][0],y2=points[j][1];
+                double slope=atan2(y2-y1,x2-x1); //(y2-y1/x2-x1)
+                mp[slope]++;
+            }
+            for(auto it:mp){
+                ans=max(ans,it.second+1);
+            }
+        }
+        return ans;
+    }
+};
