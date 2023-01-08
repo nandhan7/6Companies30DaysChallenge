@@ -1,0 +1,18 @@
+https://leetcode.com/problems/factorial-trailing-zeroes/description/
+
+class Solution {
+public:
+    int trailingZeroes(int n) {
+        //Logic :
+        /*
+        We need number of 2*5 's in the sequence and since every number has 2's we only need
+        5's , so we find number of 5's , we will get n/5 5's definitely and theres an edge case
+        But 25 gives two 5's , 125 gives three 5's so take care of it.
+        */
+        int ans=0;
+        for(int i=5;i<=n;i=i*5){
+            ans+=n/i;
+        }
+        return ans;
+    }
+};
