@@ -1,0 +1,21 @@
+https://leetcode.com/problems/number-of-boomerangs/description/
+
+class Solution {
+public:
+    int numberOfBoomerangs(vector<vector<int>>& points) {
+        //you check for every point , with every other point the distance and if the distance is same you can form a boomerang and because ordering matters , for any i with distance k , it can have i*i-1 different ways . (1,0),(0,0),(2,0) can also be written as (1,0),(2,0,)(0,0) also so i*i-1 
+        int n=points.size();
+        int total=0;
+        for(int i=0;i<n;i++){
+            map<int,int>mp;
+            for(int j=0;j<n;j++){
+                int dist= (points[i][0]-points[j][0])*(points[i][0]-points[j][0]) + (points[i][1]-points[j][1]) * (points[i][1]-points[j][1]);
+                mp[dist]++;
+            }
+            for(auto it:mp){
+                if(it.second)total+=(it.second)*(it.second-1); //n*n-1 ,because ordering matters if a forms with b, b forms with a also
+            }
+        }
+        return total;
+    }
+};
