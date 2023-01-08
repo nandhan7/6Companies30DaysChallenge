@@ -1,0 +1,20 @@
+https://leetcode.com/problems/minimum-consecutive-cards-to-pick-up/description/
+
+class Solution {
+public:
+    int minimumCardPickup(vector<int>& cards) {
+        //So , here we use a vector of constant space to store the last occurence of the element previously and when we find the element again in the array we update the last occurence of that element in v and calculate ans accordinglyy
+        int n=cards.size();
+        vector<int>v(1e6+1,-1);
+        int ans=INT_MAX;;
+        for(int i=0;i<n;i++){
+            if(v[cards[i]]==-1)v[cards[i]]=i;
+            else{
+                ans=min(ans,i-v[cards[i]]+1);
+                v[cards[i]]=i;
+            }
+        }
+        if(ans==INT_MAX)return -1;
+        return ans;
+    }
+};
