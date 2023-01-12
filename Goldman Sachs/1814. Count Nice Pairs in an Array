@@ -1,0 +1,32 @@
+https://leetcode.com/problems/count-nice-pairs-in-an-array/
+
+class Solution {
+    int mod=1e9+7;
+    int reverseNumber(int n){
+        int no=0;
+        while(n){
+            int rem=n%10;
+            n=n/10;
+            no=no*10+rem;
+        }
+        return no;
+    }
+public:
+    int countNicePairs(vector<int>& nums) {
+        //Logic 
+        /*We shift the expression and make nums[i]-reverse(nums[i])=nums[j]-reverse(nums[j])
+        We use map store the difference and increment the counter , because i should be less than j we start from behind*/
+        int n=nums.size();
+        int count=0;
+        unordered_map<int,int>mp;
+        for(int i=n-1;i>=0;i--){
+            int diff=nums[i]-reverseNumber(nums[i]);
+            if(mp.count(diff)==true){
+                count=(count+mp[diff])%mod;
+            }
+            mp[diff]++;
+
+        }
+        return count%mod;
+    }
+};
